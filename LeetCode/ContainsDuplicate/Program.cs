@@ -17,4 +17,15 @@ bool ContainsDuplicate(List<short> nums)
     return false;
 }
 
-Console.WriteLine($"Contains Duplis? {ContainsDuplicate(new List<short>(106) { 1, 2, 2, 4, 5 })}");
+var test1 = new List<short>(106) { 1, 2, 3, 1 };
+var result1 = ContainsDuplicate(test1) ? "PASS" : "FAIL";
+
+var test2 = new List<short>(106) { 1, 2, 3, 4 };
+var result2 = ContainsDuplicate(nums: test2) ? "FAIL" : "PASS";
+
+var test3 = new List<short>(106) { 1, 1, 1, 3, 3, 4, 3, 2, 4, 2 };
+var result3 = ContainsDuplicate(test3) ? "PASS" : "FAIL";
+
+Console.WriteLine($"Test 1: {result1}");
+Console.WriteLine($"Test 2: {result2}");
+Console.WriteLine($"Test 3: {result3}");
