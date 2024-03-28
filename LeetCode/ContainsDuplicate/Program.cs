@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-bool ContainsDuplicate(List<int> nums)
+﻿bool ContainsDuplicate(List<int> nums)
 {
     var read = new HashSet<int>();
 
