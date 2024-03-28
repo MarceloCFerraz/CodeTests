@@ -17,7 +17,7 @@ int[] test1 = [1, 2, 3, 1];
 var result1 = ContainsDuplicate(test1) ? "PASS" : "FAIL";
 
 int[] test2 = [1, 2, 3, 4];
-var result2 = ContainsDuplicate(nums: test2) ? "FAIL" : "PASS";
+var result2 = ContainsDuplicate(test2) ? "FAIL" : "PASS";
 
 int[] test3 = [1, 1, 1, 3, 3, 4, 3, 2, 4, 2];
 var result3 = ContainsDuplicate(test3) ? "PASS" : "FAIL";
