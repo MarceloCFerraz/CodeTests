@@ -1,36 +1,31 @@
 ﻿
 bool ContainsDuplicate(int[] nums)
 {
-    var read = new byte[500_000];
-    var offset = 600_000; // offset to handle negative numbers
-    // yes, this is initializing an 300KB array. The maximum number compatible is 1.199.999 ((300.000 * 8) / 2 - 1; because 0 counts)
+    // maxNumber = 2 ^ 32 / 2 (-1 if positive)
+    // totalBits * 8 / 2 = maxNumber
+    var max = (long)Math.Pow(2, 32);
+    var read = new byte[max / 4]; // Adjust the size as needed
+
     for (int i = 0; i < nums.Length; i++)
     {
-        int j = (nums[i] + offset) / 8; // 100 / 8 = 12
-        int bit = (nums[i] + offset) % 8; // 100 / 8 = 4
+        var j = (max + nums[i]) / 8;
+        var bits = (int)(max + nums[i]) % 8;
 
-        int readBit = 1 << bit;
-        // this line is creating a new byte 00000001 and moving the one to the left (with <<) by `bit` positions.
-        // If bit = 4, then this will be 0001000
-
-        if ((read[j] & readBit) != 0) return true;
-        // & is bitwise AND, which does an AND operation bit-by-bit. Let's use an example for this:
-        // 00001000 & 00000001
-        // Bit wise AND will compare each bit and do an AND operation. 1 AND 1 = 1; 1 AND 0 = 0; 0 AND 0 = 0.
-        // meaning it will return in bit 1 only if both bits are 1's. This will result in a number.
-        // If none of the bits are equal, this number will be zero. If at least one bit is 1 in both sides, the number will be different than 0
-        // this will then mean we've found our duplicate and can return true
-        read[j] |= (byte)readBit;  // Note: Explicit cast for bitwise OR
-        // and here were doing the last part of the puzzle. Let's use the previous example to demonstrate:
-        // Assume read[j] =     00000001
-        // Assume readBit =     00001000
-        // Bitwise OR results = 00001001
-        // Now next if this number `readBit` is 00000001 or 00001000 with the same `j`, we'll know they're duplicates
+        var readBits = 1 << bits;
+        try
+        {
+            if ((read[j] & readBits) != 0) return true;
+        }
+        catch
+        {
+            Console.WriteLine($"MAX: {max} Len: {max / 4} J: {j} Bits: {bits} Num: {nums[i]}");
+            //  536_870_911
+            // -268_435_456
+        }
+        read[j] |= (byte)readBits;
     }
     return false;
 }
-
-
 
 int[] test1 = [1, 2, 3, 1];
 var result1 = ContainsDuplicate(test1) ? "PASS" : "FAIL";
