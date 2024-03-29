@@ -1,6 +1,4 @@
-﻿
-
-static bool IsAnagram(string s, string t)
+﻿static bool IsAnagram(string s, string t)
 {
     if (
         s.Length != t.Length // If `s` and `t` are anagrams, they should have the same length
@@ -10,8 +8,12 @@ static bool IsAnagram(string s, string t)
 
     for (int i = 0; i < s.Length; i++)
     {
-        // lowercase a is 97 in ascii table, we ca know exactly where to put the count for each character by subtracting its char count by 97
-        // since we're only dealing with lowercase english letters, this works, otherwise, would need other tweaks. Unicode would probably differ from this as well
+        // lowercase a is 97 in ascii table, we can know exactly where to put the count for each character,
+        // we just need to subtract its char count by 97  since we're only dealing with lowercase english letters, 
+        // otherwise, would we'd replace 97 with something else (e.g., 65 to work with uppercase as well).
+        // In such case, we'd also need to mess with the read size, 26 wouldn't be enough.
+        // An implementation to support Unicode would probably be similar, but would probably use a lot more memory
+        // since there are millions of unicase characters, so a better idea would probably to stick with the Dictionary version of this.
         read[s[i] - 'a'] += 1;
         read[t[i] - 'a'] -= 1;
     }
