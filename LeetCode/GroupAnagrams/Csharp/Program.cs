@@ -28,7 +28,8 @@ static List<List<string>> GroupAnagrams(string[] strings)
         {
             var word = strings[j];
 
-            if (i != j && candidate == word) // change condition to check if word and candidate are anagrams
+            // if (i != j && candidate == word) // change condition to check if word and candidate are anagrams
+            if (i != j && areAnagrams(candidate, word)) // change condition to check if word and candidate are anagrams
                 response
                     .Find(a => a.Contains(candidate))
                     ?.Add(word);
@@ -39,6 +40,27 @@ static List<List<string>> GroupAnagrams(string[] strings)
     Console.Write("Response: ");
     PrintItems(response);
     return response;
+}
+
+static bool areAnagrams(string s, string t)
+{
+    if (s.Length != t.Length) return false;
+
+    var count = new Dictionary<char, int>();
+
+    for (int i = 0; i < s.Length; i++)
+    {
+        if (!count.TryGetValue(s[i], out _))
+            count.Add(s[i], 0);
+
+        if (!count.TryGetValue(t[i], out _))
+            count.Add(t[i], 0);
+
+        count[s[i]]++;
+        count[t[i]]--;
+    }
+
+    return count.All(el => el.Value == 0);
 }
 
 
@@ -63,13 +85,13 @@ var test1 = result1[0].SequenceEqual(["abc", "abc"]) // compare like this
 Console.WriteLine($"Test 1: {test1}");
 
 var result2 = GroupAnagrams([""]);
-var test2 = result2[0].SequenceEqual([""]) // compare like this
+var test2 = result2[0].SequenceEqual([""]) // check if the first element is an array with an empty string
     ? "PASS" : "FAIL";
 
 Console.WriteLine($"Test 2: {test2}");
 
 var result3 = GroupAnagrams(["abc"]);
-var test3 = result3[0].SequenceEqual(["abc"]) // compare like this
+var test3 = result3[0].SequenceEqual(["abc"]) // check if the first element is an array with "abc"
     ? "PASS" : "FAIL";
 
 Console.WriteLine($"Test 3: {test3}");
