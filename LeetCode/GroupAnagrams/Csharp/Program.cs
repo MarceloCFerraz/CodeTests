@@ -10,51 +10,29 @@ static void PrintItems(IList<IList<string>> items)
 
 static IList<IList<string>> GroupAnagrams(string[] strings)
 {
-    var response = new List<IList<string>>();
-    int count = -1;
+    var map = new Dictionary<string, IList<string>>();
 
     for (int i = 0; i < strings.Length; i++)
     {
-        if (!response.Any(words => words.Contains(strings[i])))
-        {
-            response.Add([strings[i]]);
-            count++;
-        }
-        else continue;
+        var word = strings[i];
 
-        for (int j = 0; j < strings.Length; j++)
-        {
-            if (j != i && isAnagram(strings[i], strings[j]))
-                response[count].Add(strings[j]);
-        }
+        var arr = word.ToCharArray();
+        Array.Sort(arr);
+
+        var sorted = new string(arr);
+
+        if (map.ContainsKey(sorted))
+            map[sorted].Add(word);
+        else
+            map.Add(sorted, new List<string>() { word });
     }
+
+    var response = new List<IList<string>>(map.Values);
 
     Console.Write("Response: ");
     PrintItems(response);
+
     return response;
-}
-
-static bool isAnagram(string candidate, string word)
-{
-    if (candidate.Length != word.Length) return false;
-
-    var read = new Dictionary<char, int>(candidate.Length);
-
-    for (var i = 0; i < word.Length; i++)
-    {
-        var s = candidate[i];
-        var t = word[i];
-
-        if (!read.ContainsKey(s))
-            read.Add(s, 0);
-        if (!read.ContainsKey(t))
-            read.Add(t, 0);
-
-        read[s] += 1;
-        read[t] -= 1;
-    }
-
-    return read.All(m => m.Value == 0);
 }
 
 /*
