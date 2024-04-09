@@ -1,4 +1,5 @@
-﻿static void PrintItems(List<List<string>> items)
+﻿
+static void PrintItems(IList<IList<string>> items)
 {
     foreach (var item in items)
     {
@@ -7,34 +8,25 @@
     Console.WriteLine();
 }
 
-static List<List<string>> GroupAnagrams(string[] strings)
+static IList<IList<string>> GroupAnagrams(string[] strings)
 {
-    var response = new List<List<string>>();
-    string? candidate = null;
+    var response = new List<IList<string>>();
+    int count = -1;
 
     for (int i = 0; i < strings.Length; i++)
     {
-        if (candidate == null)
+        if (!response.Any(words => words.Contains(strings[i])))
         {
-            candidate = strings[i];
-
-            if (response.Any(a => a.Contains(candidate)))
-                continue;
-
-            response.Add([candidate]);
+            response.Add([strings[i]]);
+            count++;
         }
+        else continue;
 
         for (int j = 0; j < strings.Length; j++)
         {
-            var word = strings[j];
-
-            // if (i != j && candidate == word) // change condition to check if word and candidate are anagrams
-            if (i != j && areAnagrams(candidate, word)) // change condition to check if word and candidate are anagrams
-                response
-                    .Find(a => a.Contains(candidate))
-                    ?.Add(word);
+            if (j != i && isAnagram(strings[i], strings[j]))
+                response[count].Add(strings[j]);
         }
-        candidate = null;
     }
 
     Console.Write("Response: ");
@@ -42,27 +34,28 @@ static List<List<string>> GroupAnagrams(string[] strings)
     return response;
 }
 
-static bool areAnagrams(string s, string t)
+static bool isAnagram(string candidate, string word)
 {
-    if (s.Length != t.Length) return false;
+    if (candidate.Length != word.Length) return false;
 
-    var count = new Dictionary<char, int>();
+    var read = new Dictionary<char, int>(candidate.Length);
 
-    for (int i = 0; i < s.Length; i++)
+    for (var i = 0; i < word.Length; i++)
     {
-        if (!count.TryGetValue(s[i], out _))
-            count.Add(s[i], 0);
+        var s = candidate[i];
+        var t = word[i];
 
-        if (!count.TryGetValue(t[i], out _))
-            count.Add(t[i], 0);
+        if (!read.ContainsKey(s))
+            read.Add(s, 0);
+        if (!read.ContainsKey(t))
+            read.Add(t, 0);
 
-        count[s[i]]++;
-        count[t[i]]--;
+        read[s] += 1;
+        read[t] -= 1;
     }
 
-    return count.All(el => el.Value == 0);
+    return read.All(m => m.Value == 0);
 }
-
 
 /*
 Example 1:
@@ -95,3 +88,10 @@ var test3 = result3[0].SequenceEqual(["abc"]) // check if the first element is a
     ? "PASS" : "FAIL";
 
 Console.WriteLine($"Test 3: {test3}");
+
+var result4 = GroupAnagrams(["abc", "cba", "cd", "bac"]);
+var test4 = result4[0].SequenceEqual(["abc", "cba", "bac"]) // compare like this
+    && result4[1].SequenceEqual(["cd"])
+    ? "PASS" : "FAIL";
+
+Console.WriteLine($"Test 4: {test4}");
