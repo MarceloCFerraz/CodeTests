@@ -1,4 +1,4 @@
-﻿static int[]? TwoSum(int[] nums, int target)
+﻿static int[] TwoSum(int[] nums, int target)
 {
     var response = new Dictionary<int, int>();
 
@@ -7,11 +7,11 @@
         var difference = target - nums[i];
 
         if (response.ContainsKey(difference))
-            return new int[] { i, response[difference] };
+            return [i, response[difference]];
 
         response[nums[i]] = i;
     }
-    return null;
+    return [];
 }
 
 /*
@@ -35,28 +35,29 @@ Example 3:
 
 
 var result1 = TwoSum([3, 2, 4], 6);
-var test1 = result1 != null
-    && (result1[0] == 1 && result1[1] == 2
-        || result1[0] == 2 && result1[1] == 1)
-    && (result1.Length == 2)
+var test1 = result1.Length == 2
+    && Enumerable.SequenceEqual(result1, [2, 1])
     ? "PASS" : "FAIL";
 
 Console.WriteLine($"Test 1: {test1}");
 
 var result2 = TwoSum([3, 3], 6);
-var test2 = result2 != null
-    && (result2[0] == 0 && result2[1] == 1
-        || result2[0] == 1 && result2[1] == 0)
-    && (result2.Length == 2)
+var test2 = result2.Length == 2
+    && Enumerable.SequenceEqual(result2, [1, 0])
     ? "PASS" : "FAIL";
 
 Console.WriteLine($"Test 2: {test2}");
 
 var result3 = TwoSum([2, 7, 11, 15], 9);
-var test3 = result3 != null
-    && (result3[0] == 0 && result3[1] == 1
-        || result3[0] == 1 && result3[1] == 0)
-    && (result3.Length == 2)
+var test3 = result3.Length == 2
+    && Enumerable.SequenceEqual(result3, [1, 0])
     ? "PASS" : "FAIL";
 
 Console.WriteLine($"Test 3: {test3}");
+
+var result4 = TwoSum([2, -7, -5, 15], 10);
+var test4 = result4.Length == 2
+    && Enumerable.SequenceEqual(result4, [3, 2])
+    ? "PASS" : "FAIL";
+
+Console.WriteLine($"Test 4: {test4}");
