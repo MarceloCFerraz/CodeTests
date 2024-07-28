@@ -1,5 +1,5 @@
 build
 obj
 bin
-
+venv
 .fake
