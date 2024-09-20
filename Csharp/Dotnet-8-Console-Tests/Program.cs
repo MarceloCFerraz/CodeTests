@@ -10,14 +10,10 @@ static string GetEnumDescription(Colors color)
 
     var attributes = (DescriptionAttribute[])field.GetCustomAttributes(typeof(DescriptionAttribute), false);
 
-    if (attributes != null && attributes.Length > 0)
-    {
-        return attributes[0].Description;
-    }
-    else
-    {
+    if (attributes == null || attributes.Length == 0)
         return color.ToString();
-    }
+
+    return attributes[0].Description;
 }
 
 var myList = new List<TestClass>(){
@@ -31,7 +27,10 @@ var myList = new List<TestClass>(){
     },
 };
 
-Console.WriteLine(JsonSerializer.Serialize(myList));
+Console.WriteLine(JsonSerializer.Serialize(myList)); // [{"MyProperty":1,"MyString":"Str 1"},{"MyProperty":2,"MyString":"Str 2"}]
+
+var myInts = new List<int>() { 1, 2, 3, 4, 5 };
+Console.WriteLine(JsonSerializer.Serialize(myInts)); // [1,2,3,4,5]
 
 
 foreach (var color in Enum.GetValues(typeof(Colors)))
