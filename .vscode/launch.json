@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Dotnet-8-Console-Tests",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build dotnet-8-console-tests",
+            "program": "${workspaceFolder}/Csharp/Dotnet-8-Console-Tests/bin/Debug/net8.0/Dotnet-8-Console-Tests.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Csharp/Dotnet-8-Console-Tests",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        }
+    ]
+}
