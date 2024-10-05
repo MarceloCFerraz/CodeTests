@@ -1,5 +1,4 @@
-﻿using System.Net.Quic;
-using Exercicios.Implements;
+﻿using Exercicios.Implements;
 using Exercicios.Interfaces;
 
 
@@ -8,6 +7,7 @@ var questions = new List<ICodingExercise>()
         new ECondicionaisQ1(),
         new ECondicionaisQ2(),
         new ECondicionaisQ3(),
+        new ECondicionaisQ4(),
     };
 
 // infinite loop
