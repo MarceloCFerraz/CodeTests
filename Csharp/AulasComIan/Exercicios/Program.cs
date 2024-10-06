@@ -13,6 +13,7 @@ var questions = new List<ICodingExercise>()
         new ECondicionaisQ7(),
         new ECondicionaisQ8(),
         new ECondicionaisQ9(),
+        new ECondicionaisQ10(),
     };
 
 // infinite loop
