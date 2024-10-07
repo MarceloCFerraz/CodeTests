@@ -21,7 +21,6 @@ namespace Exercicios.Implements
                 Name = "";
             }
 
-
             public string Name { get; set; }
             public int GoldenMedals { get; set; }
             public int GoldPoints { get; set; } = 3;
@@ -39,8 +38,14 @@ namespace Exercicios.Implements
             // de medalhas de ouro, prata e bronze. Considere que cada medalha de ouro
             // tem peso 3, cada prata tem peso 2 e cada bronze, peso 1.
 
+            var countries = GetListOfCountries();
+            OrderCountriesByMedals(countries);
+            PrintCountriesRanking(countries);
+        }
+
+        private OlympicsCountry[] GetListOfCountries()
+        {
             var countries = new OlympicsCountry[3];
-            var biggestName = 0;
 
             for (var i = 0; i < countries.Length; i++)
             {
@@ -48,9 +53,6 @@ namespace Exercicios.Implements
 
                 Console.WriteLine($"Please type the Name of the country #{i + 1}:");
                 var input = Console.ReadLine();
-
-                if (input.Length > biggestName)
-                    biggestName = input.Length;
 
                 country.Name = input.ToUpper() ?? throw new InvalidDataException($"Country {i}'s name was null");
 
@@ -86,11 +88,23 @@ namespace Exercicios.Implements
 
                 countries[i] = country;
 
-                // just to skip a line
-                Console.WriteLine();
+                // just to separate one country from another
+                Console.WriteLine("".PadRight(50, '='));
             }
 
-            OrderCountriesByMedals(countries);
+            return countries;
+        }
+
+        private void OrderCountriesByMedals(OlympicsCountry[] countries)
+        {
+            countries.OrderByDescending(ct => ct.TotalPoints);
+        }
+
+        private void PrintCountriesRanking(OlympicsCountry[] countries)
+        {
+            Console.Clear();
+
+            var biggestNameLen = GetBiggestCountryNameLength(countries);
 
             var header1 = "COUNTRY NAME";
             var header2 = "GOLDEN MEDALS";
@@ -98,11 +112,11 @@ namespace Exercicios.Implements
             var header4 = "BRONZE MEDALS";
             var header5 = "TOTAL POINTS";
 
-            if (header1.Length > biggestName)
-                biggestName = header1.Length; // number of chars in string
+            if (header1.Length > biggestNameLen)
+                biggestNameLen = header1.Length; // number of chars in string
 
             Console.WriteLine(
-                header1.PadRight(biggestName + 3) +
+                header1.PadRight(biggestNameLen + 3) +
                 header2.PadRight(header2.Length + 3) +
                 header3.PadRight(header3.Length + 3) +
                 header4.PadRight(header4.Length + 3) +
@@ -111,7 +125,7 @@ namespace Exercicios.Implements
             foreach (var country in countries)
             {
                 Console.WriteLine(
-                    country.Name.PadRight(biggestName + 3) +
+                    country.Name.PadRight(biggestNameLen + 3) +
                     country.GoldenMedals.ToString().PadRight(header2.Length + 3) +
                     country.SilverMedals.ToString().PadRight(header3.Length + 3) +
                     country.BronzeMedals.ToString().PadRight(header4.Length + 3) +
@@ -120,9 +134,17 @@ namespace Exercicios.Implements
             }
         }
 
-        private void OrderCountriesByMedals(OlympicsCountry[] countries)
+        private int GetBiggestCountryNameLength(OlympicsCountry[] countries)
         {
-            countries.OrderByDescending(ct => ct.TotalPoints);
+            var biggestNameLen = 0;
+
+            foreach (var ct in countries)
+            {
+                if (ct.Name.Length > biggestNameLen)
+                    biggestNameLen = ct.Name.Length;
+            }
+
+            return biggestNameLen;
         }
     }
 }
