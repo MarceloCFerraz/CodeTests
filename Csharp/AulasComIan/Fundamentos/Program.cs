@@ -43,3 +43,74 @@ double Exponenciacao(double baseNum, double expoente)
 
 var div = Divisao(A, B);
 Console.WriteLine(Exponenciacao(div, 3));
+
+
+//SWITCH STATEMENT
+var option = 3;
+
+switch (option)
+{
+    case 1:
+        Console.WriteLine("10% off");
+        break; // keyword
+    case 2:
+        Console.WriteLine("5% off");
+        break; // keyword
+    case 3:
+        Console.WriteLine("full price");
+        break;
+    case 4:
+        Console.WriteLine("10% interest rate");
+        break;
+    default:
+        Console.WriteLine("Invalid option");
+        break;
+}
+
+Console.Clear(); // clear everything on the terminal
+
+var index = 0;
+//   ARRAYS                               0   1   2   3
+var numbers = new double[3]; // "abc" = ['a','b','c']
+
+// FOR LOOP
+for (index = 0; index < numbers.Length; index += 1)
+{
+    Console.WriteLine($"Type value {index + 1}: ");
+    var input = Console.ReadLine();
+
+    var value = double.Parse(input);
+
+    // numbers[0] = 10
+    numbers[index] = value; // colocando
+}
+
+index = 0;
+
+while (index < numbers.Length)
+{
+    var value = numbers[index]; // lendo
+    Console.WriteLine($"Result {index + 1} = {value} + {value} = {value + value}");
+
+    index += 1;
+}
+
+// do
+// {
+//     // DO SOMETHING THEN CHECK CONDITION
+// } while (true);
+
+// LIST
+
+var list = new List<double>();
+
+list.Add(2);
+list.Add(21);
+list.Add(3);
+
+for (index = 0; index < list.Count; index += 1)
+{
+    // do something
+}
+
+
