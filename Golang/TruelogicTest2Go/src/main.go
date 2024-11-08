@@ -16,7 +16,7 @@ type Page struct {
 // the rest of the properties are useless
 type User struct {
 	Username    string `json:"username"`
-	Submissions int32    `json:"total_submissions"`
+	Submissions int32  `json:"total_submissions"`
 }
 
 func GetUsernames(threshold int32) []string {
@@ -53,7 +53,7 @@ func GetUsernames(threshold int32) []string {
 			panic(err)
 		}
 
-		for _, u := range j.Users{
+		for _, u := range j.Users {
 			if u.Submissions > threshold {
 				usernames = append(usernames, u.Username)
 			}
