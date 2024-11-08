@@ -20,7 +20,7 @@ type User struct {
 }
 
 func GetUsernames(threshold int32) []string {
-	usernames := make([]string, 0)
+	usernames := []string{}
 
 	page := 1
 	for {
