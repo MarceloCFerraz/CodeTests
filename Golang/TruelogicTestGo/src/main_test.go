@@ -4,17 +4,57 @@ import (
 	"testing"
 )
 
-func TestInvert2nMatrix(t *testing.T) {
-	n := 1
-	matrix := make([][]int32, n*2)
-	matrix[0] = []int32{30, 40}
-	matrix[1] = []int32{0, 70}
+func TestGetMinCost(t *testing.T) {
+	numPeople := []int32{1, 2}
+	x := []int32{1, 3} // l
+	y := []int32{2, 1} // c
+	/*
+		|1 - 1| + |2 - 1| = 1 * 2 = 2
+		|3 - 1| + |1 - 1| = 2 * 1 = 2
+		Move all to (1, 1) = 4
 
-	result := Invert2nMatrix(matrix)
+		|1 - 1| + |2 - 2| = 0 * 2 = 0
+		|3 - 1| + |1 - 2| = 3 * 1 = 3
+		Move all to (1, 2) = 3
 
-	var expected int32 = 70
+		|1 - 1| + |2 - 3| = 1 * 2 = 2
+		|3 - 1| + |1 - 3| = 4 * 1 = 4
+		Move all to (1, 3) = 6
 
-	if result != expected {
-		t.Errorf("Invert2nMatrix should return %d when matrix is %d", expected, matrix)
+		|1 - 2| + |2 - 1| = 2 * 2 = 4
+		|3 - 2| + |1 - 1| = 1 * 1 = 1
+		Move all to (2, 1) = 5
+
+		|1 - 2| + |2 - 2| = 1 * 2 = 2
+		|3 - 2| + |1 - 2| = 2 * 1 = 2
+		Move all to (2, 2) = 4
+
+		|1 - 2| + |2 - 3| = 2 * 2 = 4
+		|3 - 2| + |1 - 3| = 3 * 1 = 3
+		Move all to (2, 3) = 7
+
+		|1 - 3| + |2 - 1| = 3 * 2 = 6
+		|3 - 3| + |1 - 1| = 0 * 1 = 0
+		Move all to (3, 1) = 6
+
+		|1 - 3| + |2 - 2| = 2 * 2 = 4
+		|3 - 3| + |1 - 2| = 1 * 1 = 1
+		Move all to (3, 2) = 5
+
+		|1 - 3| + |2 - 3| = 3 * 2 = 6
+		|3 - 3| + |1 - 3| = 2 * 1 = 2
+		Move all to (3, 3) = 8
+
+		4       3       6
+		5       4       7
+		6       5       8
+	*/
+
+	r := GetMinCost(numPeople, x, y)
+
+	var expected int32 = 3
+
+	if r != expected {
+		t.Errorf("Function should return %d, but was %d. numPeople: %v, x: %v, y: %v", expected, r, numPeople, x, y)
 	}
 }
