@@ -2,7 +2,7 @@
 
 Write a function that, based on the threshold provided via parameters, return a list of users whose amount of submissions is strictly greater than the threshold.
 
-User data must be fetched by GET requests to url https://url.com. Response has pagination (starting at 1), so keep requesting until all pages were read.
+User data must be fetched by GET requests to url ttps://url.com/search?page=1. Response has pagination (starting at 1), so keep requesting until all pages were read.
 
 Response will have the following properties:
 
