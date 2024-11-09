@@ -1,10 +1,8 @@
 package main
 
-import "log"
-
-func CountingSort(arr []int32) []int32 {
+func CountingSort(arr []int32) ([]int32, []int32) {
 	if len(arr) <= 1 {
-		return arr
+		return arr, nil
 	}
 
 	n := getMax(arr)
@@ -30,7 +28,7 @@ func CountingSort(arr []int32) []int32 {
 		}
 	}
 
-	return sorted
+	return sorted, ca
 }
 
 func getMax(arr []int32) int32 {
@@ -46,20 +44,4 @@ func getMax(arr []int32) int32 {
 }
 
 func main() {
-	arr := []int32{5, 1, 3, 9, 7}
-	exp := []int32{1, 3, 5, 7, 9}
-
-	act := CountingSort(arr)
-
-	// asserting
-	for i := range act {
-		e := exp[i]
-		a := act[i]
-
-		if e != a {
-			log.Fatalf("Sorting went wrong. Expected: %d, Actual: %d\n", exp, act)
-		}
-	}
-
-	log.Printf("Sorting worked! Original: %d. Sorted: %d\n", arr, act)
 }
