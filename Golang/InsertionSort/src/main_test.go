@@ -13,11 +13,13 @@ func TestSelectionSort(t *testing.T) {
 	// asserting
 	if len(ea) != len(act) {
 		t.Errorf("Sorting went wrong. Expected: %d, Actual: %d\n", ea, act)
+		return
 	}
 
 	for i := range act {
 		if ea[i] != act[i] {
 			t.Errorf("Sorting went wrong. Expected: %d, Actual: %d\n", ea, act)
+			return
 		}
 	}
 
