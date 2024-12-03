@@ -24,7 +24,7 @@ func ReadFile(name string) ([]byte, error) {
 
 	count := strings.Count(cwd, "/src")
 
-	if count > 1 { // hack to run with vscode debugger
+	if count > 1 { // hack to run with vscode's debugger (remove last 'src' from cwd)
 		ind := strings.LastIndex(cwd, "src")
 
 		cwd = cwd[:ind]
@@ -60,8 +60,8 @@ func ReadInput(fileName string) ([]string, error) {
 }
 
 func GetListsFromInput(input []string) ([]int64, []int64, error) {
-	list1 := make([]int64, 0, len(input))
-	list2 := make([]int64, 0, len(input))
+	leftList := make([]int64, 0, len(input))
+	rightList := make([]int64, 0, len(input))
 
 	for _, item := range input {
 		if strings.Trim(item, " ") == "" {
@@ -70,26 +70,26 @@ func GetListsFromInput(input []string) ([]int64, []int64, error) {
 		items := strings.Fields(item)
 
 		if len(items) == 1 {
-			return list1, list2, fmt.Errorf("couldn't split item %s. Result: %s", item, items)
+			return leftList, rightList, fmt.Errorf("couldn't split item %s. Result: %s", item, items)
 		}
 
 		num1, err := strconv.ParseInt(items[0], 10, 0)
 
 		if err != nil {
-			return list1, list2, err
+			return leftList, rightList, err
 		}
 
 		num2, err := strconv.ParseInt(items[1], 10, 0)
 
 		if err != nil {
-			return list1, list2, err
+			return leftList, rightList, err
 		}
 
-		list1 = append(list1, num1)
-		list2 = append(list2, num2)
+		leftList = append(leftList, num1)
+		rightList = append(rightList, num2)
 	}
 
-	return list1, list2, nil
+	return leftList, rightList, nil
 }
 
 func Abs(dif int64) uint64 {
@@ -104,35 +104,39 @@ func main() {
 		log.Fatalf("ERROR: %s", err)
 	}
 
-	list1, list2, err := GetListsFromInput(input)
+	leftList, rightList, err := GetListsFromInput(input)
 
 	if err != nil {
 		log.Fatalf("ERROR: %s", err)
 	}
 
-	if len(list1) != len(list2) {
-		log.Fatalf("ERROR: list 1 has len %d and list 2 %d", len(list1), len(list2))
+	if len(leftList) != len(rightList) {
+		log.Fatalf("ERROR: list 1 has len %d and list 2 %d", len(leftList), len(rightList))
 	}
 
-	sort.Slice(list1, func(x, y int) bool {
-		return list1[x] < list1[y]
+	sort.Slice(leftList, func(x, y int) bool {
+		return leftList[x] < leftList[y]
 	})
 
-	sort.Slice(list2, func(x, y int) bool {
-		return list2[x] < list2[y]
+	sort.Slice(rightList, func(x, y int) bool {
+		return rightList[x] < rightList[y]
 	})
 
-	var difsSum uint64 = 0
+	var similarity int64 = 0
 
-	for i := range list1 {
-		item1 := list1[i]
-		item2 := list2[i]
+	for i := range leftList {
+		left := leftList[i]
 
-		dif := item1 - item2
-		absDif := Abs(dif)
+		for j := range rightList {
+			right := rightList[j]
 
-		difsSum += absDif
+			if right == left {
+				similarity += left
+			}
+		}
 	}
 
-	log.Printf("Total distance between lists: %d", difsSum)
+	log.Printf("Similarity = %d", similarity)
+	// similarity += left * frequence on right
+
 }
