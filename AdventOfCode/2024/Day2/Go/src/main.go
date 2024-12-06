@@ -115,42 +115,91 @@ func main() {
 	// if levels are all constant (only up or down) and
 	// if difference between all levels is less or equal than 3
 
-	safetyReport := make([]bool, len(reports)) // true = safe
+	// safetyReport := make([]bool, len(reports)) // true = safe
 	safeCount := 0
-	for i, report := range reports {
-		safe := true
+	for _, report := range reports {
+		problemCount := GetProblemCount(report)
 
-		for i := range report {
-			if i == 0 || i+1 == len(report) {
-				continue
-			}
+		safe := problemCount == 0
 
-			prevLevel := report[i-1]
-			level := report[i]
-			nextLevel := report[i+1]
-
-			difPrev := level - prevLevel
-			difNext := nextLevel - level
-
-			// if dif > 0 = increasing
-			// if dif < 0 = decreasing
-
-			distanceIsSafe := Abs(difPrev) <= 3 && Abs(difNext) <= 3
-			difsAreAllGoingUpOrDown := ((difNext > 0 && difPrev > 0) || (difNext < 0 && difPrev < 0))
-
-			safe = distanceIsSafe && difsAreAllGoingUpOrDown
-
-			if !safe {
-				break
-			}
-		}
-
-		safetyReport[i] = safe
 		if safe {
 			log.Printf("Report: %d (safe)", report)
 			safeCount++
+			continue
+		} 
+
+		safe, report = TryToMakeReportSafe(report)
+		
+		if safe {
+			safeCount++
+			continue
 		}
+
+		log.Printf("Report: %d (unsafe)", report)
 	}
 
 	log.Printf("%d reports are safe", safeCount)
+}
+
+func TryToMakeReportSafe(report []int64) (bool, []int64) {
+	safe := false
+
+	for j := range report {
+		newReport := RemoveItemFromReport(report, j)
+		newProblemCount := GetProblemCount(newReport)
+		safe = newProblemCount == 0
+
+		if safe {
+			log.Printf("Report %d can be safe by removing item #%d", report, j+1)
+			return true, newReport
+		}
+	}
+
+	return false, report
+}
+
+func GetProblemCount(report []int64) int {
+	safe := true
+	problemCount := 0
+
+	for i := range report {
+		if i == 0 || i+1 == len(report) {
+			continue
+		}
+
+		prevLevel := report[i-1]
+		level := report[i]
+		nextLevel := report[i+1]
+
+		difPrev := level - prevLevel
+		difNext := nextLevel - level
+
+		// if dif > 0 = increasing
+		// if dif < 0 = decreasing
+
+		distanceIsSafe := Abs(difPrev) <= 3 && Abs(difNext) <= 3
+		difsAreAllGoingUpOrDown := ((difNext > 0 && difPrev > 0) || (difNext < 0 && difPrev < 0))
+
+		safe = distanceIsSafe && difsAreAllGoingUpOrDown
+
+		if !safe {
+			problemCount++
+		}
+	}
+
+	return problemCount
+}
+
+func RemoveItemFromReport(report []int64, itemIndex int) []int64 {
+	rep := make([]int64, 0, len(report)-1)
+
+	for i := range report {
+		if i == itemIndex {
+			continue
+		}
+
+		rep = append(rep, report[i])
+	}
+
+	return rep
 }
