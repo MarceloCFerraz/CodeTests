@@ -6,6 +6,7 @@ import (
 	"log"
 	"math"
 	"os"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -108,105 +109,38 @@ func main() {
 
 	start := time.Now()
 
-	muls := ManuallyLoadMulsFromInput(input)
+	expr := `mul\([0-9]{1,3},[0-9]{1,3}\)`
+	regex, err := regexp.Compile(expr)
 
-	log.Printf("%d muls. Processing time: %s", len(muls), time.Now().Sub(start))
-}
+	if err != nil {
+		log.Fatalf("ERROR: couldn't compile regex '%s': %s", expr, err)
+	}
 
-func ManuallyLoadMulsFromInput(input []string) []string {
-	muls := make([]string, 0)
-
-	for i := range input {
-		line := input[i]
-
-		mul := ""
-		nums := [2]int{0, 0}
-		np := 0
-		for j := 0; j < len(line); j++ {
-			if j > len(line)-8 {
-				break
-			}
-			c := string(line[j])
-			c += ""
-
-			if mul == "" &&
-				rune(line[j]) == 'm' &&
-				rune(line[j+1]) == 'u' &&
-				rune(line[j+2]) == 'l' &&
-				rune(line[j+3]) == '(' {
-				mul += "mul("
-				j += 4
-			}
-
-			c = string(line[j])
-			if mul != "mul(" {
-				continue
-			}
-
-			if (!isDigit(rune(line[j])) && nums[np] == 0) ||
-				(isDigit(rune(line[j])) && nums[np] >= 1000) ||
-				(rune(line[j]) == ')' && nums[np] == 0) || // replicate for np == 1 and for only np == 0
-				(rune(line[j]) == ')' && np == 0) || // replicate for np == 1 and for only np == 0
-				(rune(line[j]) == ',' && np == 1) {
-				mul = ""
-				nums[0] = 0
-				nums[1] = 0
-				np = 0
-				continue
-			}
-
-			if rune(line[j]) == ',' {
-				np += 1
-				continue
-			}
-
-			if rune(line[j]) == ')' {
-				mul += strconv.Itoa(nums[0]) + "," + strconv.Itoa(nums[1]) + ")"
-				fmt.Println(mul)
-				muls = append(muls, mul)
-				mul = ""
-				nums[0] = 0
-				nums[1] = 0
-				np = 0
-				continue
-			}
-
-			conv, _ := strconv.Atoi(string(line[j]))
-			if nums[np] > 0 {
-				nums[np] *= 10
-				nums[np] += conv
-			} else {
-				nums[np] = conv
-			}
+	muls := []string{}
+	for i, line := range input {
+		if strings.Trim(line, " ") == "" {
+			continue
 		}
+
+		matches := regex.FindAll([]byte(line), -1)
+
+		if matches == nil {
+			log.Printf("No valid mul found on the line %d", i)
+		}
+
+		for _, match := range matches {
+			filtered := string(match)
+			muls = append(muls, filtered)
+
+			fmt.Println(filtered)
+		}
+		fmt.Println()
 	}
 
-	return muls
-}
+	// reports, err := GetReportsFromInput(input)
 
-func isDigit(c rune) bool {
-	switch c {
-	case '0':
-		return true
-	case '1':
-		return true
-	case '2':
-		return true
-	case '3':
-		return true
-	case '4':
-		return true
-	case '5':
-		return true
-	case '6':
-		return true
-	case '7':
-		return true
-	case '8':
-		return true
-	case '9':
-		return true
-	default:
-		return false
-	}
+	// if err != nil {
+	// 	log.Fatalf("ERROR: %s", err)
+	// }
+	log.Printf("%d muls. Processing time: %s", len(muls), time.Now().Sub(start))
 }
