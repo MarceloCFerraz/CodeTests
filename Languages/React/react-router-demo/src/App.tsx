@@ -10,17 +10,16 @@ import { HeaderLayout } from "./layouts/MainLayout";
 export function App() {
     return (
         <>
+            {/* docs: https://reactrouter.com/start/declarative/routing#configuring-routes */}
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<HeaderLayout />}>
-                        {" "}
                         {/* this is the parent/global component */}
                         {/* all components declared inside any layout component are their children */}
                         <Route path="/" element={<Home />} />
                         <Route path="/test" element={<AnotherPage />} />
                     </Route>
                     <Route path="/admin" element={<AdminLayout />}>
-                        {" "}
                         {/* this is the parent/global component */}
                         {/* all components declared inside any layout component are their children */}
                         <Route path="/admin" element={<Admin />} />
