@@ -1,0 +1,24 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.card {
+  padding: 2em;
+}
+
+button{
+  cursor: pointer;
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+  transition: background-color 0.17s, color 0.17s;
+}
+
+button:hover{
+  background-color: var(--primary);
+  /* background-color: var(--color-red-950); */
+  color: var(--primary-foreground);
+  cursor: pointer;
+}
