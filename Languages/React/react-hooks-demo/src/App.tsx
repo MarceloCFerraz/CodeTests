@@ -10,15 +10,24 @@ function App() {
 	// state and a function that should be used to update that state
 	const [nums, setNums] = useState<number[]>([]);
 	// useReducer is similar to useState and also returns two things, the difference
-	// comes from the function that will always get the current state as the first param
-	// and an action as the second param. the action can be anything, but is an object
-	// that contains some sort of "context" on how to update the current state.
+	// comes from the function that will always get the current state as the first param,
+	// an action as the second param, and an initializer function for the initial value
+	// as the third param. the action can be anything, but it is recommended to have it
+	// as an object that contains some sort of "context" on how to update the current
+	// state.
 	// E.g.: action = {type: "add", value: 1} | action = {type: "decrease", value: 1}
 	const [count, countDispatcher] = useReducer(
 		(current: number, action: CountOperation) => {
 			return current + action.increment;
 		},
 		0,
+		(initialState) => {
+			const valueFromLocalStorage = localStorage.getItem("myApp-object-key");
+
+			if (valueFromLocalStorage) return Number(valueFromLocalStorage);
+
+			return initialState;
+		},
 	);
 
 	// useEffect executes once on the initial component render and every time any of its dependencies get updated
