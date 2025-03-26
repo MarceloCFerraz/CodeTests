@@ -1,5 +1,6 @@
 import { useReducer, useState } from "react";
 import "./App.css";
+import { UserGen } from "./components/UserGen";
 
 interface CountOperation {
 	increment: number;
@@ -89,6 +90,8 @@ function App() {
 					<span>sum: {sums}</span>
 				</code>
 			</div>
+			{/* UserGen is an example of how useEffect can be used to call an api when rendering */}
+			<UserGen />
 		</>
 	);
 }
