@@ -1,7 +1,8 @@
+import { AppContextProvider } from "@/context_providers/providers/AppContextProvider";
 import "./App.css";
+import { AnotherComponent } from "./components/AnotherComponent";
 import { CountUp } from "./components/CountUp";
 import { ShowCount } from "./components/ShowCount";
-import { AppContextProvider } from "@/context_providers/providers/AppContextProvider";
 
 export function App() {
 	return (
@@ -15,6 +16,7 @@ export function App() {
 			<div className="card">
 				<CountUp />
 				<ShowCount />
+				<AnotherComponent />
 			</div>
 		</AppContextProvider>
 	);

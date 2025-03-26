@@ -1,8 +1,16 @@
-import { AppContext } from "@/context_providers/contexts/AppContext";
-import { useContext } from "react";
+import {
+	AppContext,
+	type AppContextType,
+} from "@/context_providers/contexts/AppContext";
+import { useContextSelector } from "use-context-selector";
 
 export function CountUp() {
-	const { count, setCount } = useContext(AppContext);
+	const { count, setCount } = useContextSelector(
+		AppContext,
+		(ctx: AppContextType) => {
+			return { ...ctx };
+		},
+	);
 
 	function increaseCount() {
 		setCount(count + 1);
