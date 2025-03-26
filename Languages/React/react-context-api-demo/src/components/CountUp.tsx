@@ -1,5 +1,5 @@
+import { AppContext } from "@/context_providers/contexts/AppContext";
 import { useContext } from "react";
-import { AppContext } from "../App";
 
 export function CountUp() {
 	const { count, setCount } = useContext(AppContext);
@@ -10,7 +10,8 @@ export function CountUp() {
 
 	return (
 		<button
-			className={"align-middle max-w-[250px] w-full p-2 rounded-sm bg-accent text-accent-foreground"
+			className={
+				"align-middle max-w-[250px] w-full p-2 rounded-sm bg-accent text-accent-foreground"
 			}
 			type="button"
 			onClick={increaseCount}

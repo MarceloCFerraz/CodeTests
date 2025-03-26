@@ -1,5 +1,5 @@
+import { AppContext } from "@/context_providers/contexts/AppContext";
 import { useContext } from "react";
-import { AppContext } from "../App";
 
 export function ShowCount() {
 	const { count } = useContext(AppContext);
