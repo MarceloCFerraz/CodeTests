@@ -14,8 +14,8 @@ export function App() {
 				Also passing the theme to all components via context
 			</h4>
 			<div className="card">
-				<CountUp />
 				<ShowCount />
+				<CountUp />
 				<AnotherComponent />
 			</div>
 		</AppContextProvider>

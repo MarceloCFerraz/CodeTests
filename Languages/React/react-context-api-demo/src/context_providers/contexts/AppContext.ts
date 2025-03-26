@@ -1,15 +1,14 @@
-import type { Dispatch, SetStateAction } from "react";
 import { createContext } from "use-context-selector";
 
 export type AppContextType = {
 	count: number;
-	setCount: Dispatch<SetStateAction<number>>;
+	increaseCount: () => Promise<void>;
 	doSomethingElse: () => void;
 };
 
 const initialState: AppContextType = {
 	count: 0,
-	setCount: () => {},
+	increaseCount: async () => {},
 	doSomethingElse: () => {},
 };
 

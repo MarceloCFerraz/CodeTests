@@ -5,26 +5,22 @@ import {
 import { useContextSelector } from "use-context-selector";
 
 export function CountUp() {
-	const { count, setCount } = useContextSelector(
+	const increaseCount = useContextSelector(
 		AppContext,
-		(ctx: AppContextType) => {
-			return { ...ctx };
-		},
+		(ctx: AppContextType) => ctx.increaseCount,
 	);
 
-	function increaseCount() {
-		setCount(count + 1);
-	}
-
 	return (
-		<button
-			className={
-				"align-middle max-w-[250px] w-full p-2 rounded-sm bg-accent text-accent-foreground"
-			}
-			type="button"
-			onClick={increaseCount}
-		>
-			Increase Count
-		</button>
+		<div className="block m-auto ">
+			<button
+				className={
+					"align-middle my-5 max-w-[250px] w-full p-2 rounded-sm bg-accent text-accent-foreground"
+				}
+				type="button"
+				onClick={increaseCount}
+			>
+				Increase Count
+			</button>
+		</div>
 	);
 }
