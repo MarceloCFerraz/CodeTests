@@ -1,8 +1,6 @@
 {
-  "extends": [
-    "development"
-  ],
-  "hints": {
-    "disown-opener": "off"
-  }
+	"extends": ["development"],
+	"hints": {
+		"disown-opener": "off"
+	}
 }
