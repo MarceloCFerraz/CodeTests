@@ -1,0 +1,19 @@
+{
+  "todos": [
+    {
+      "id": "1",
+      "task": "Learn react query",
+      "completed": false
+    },
+    {
+      "id": "2",
+      "task": "Go back to Portbalance",
+      "completed": false
+    },
+    {
+      "id": "5f02",
+      "task": "2",
+      "completed": false
+    }
+  ]
+}
